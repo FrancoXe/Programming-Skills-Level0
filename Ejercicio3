@@ -1,0 +1,218 @@
+using System;
+
+namespace Ejercicio3
+{
+    public class InicioSesion
+    {
+        public static int opcion;
+        public static int contadorLo = 0;
+        public static int contadorM = 0;
+        public static int contadorLi = 0;
+        public static int opcionC;
+
+        static void Main(string[] args)
+        {
+            InicioSesion inicioSesion = new InicioSesion();
+            inicioSesion.Menu();
+        }
+
+        public void Menu()
+        {
+            string nombreUsuario = "aaa";
+            string contrasena = "aaa";
+            int intentos = 0;
+
+            while (intentos < 3)
+            {
+                intentos++;
+                Console.WriteLine("UNIVERSIDAD");
+                Console.WriteLine("Ingrese su nombre de usuario");
+                string nombreI = Console.ReadLine().Trim();
+                Console.WriteLine("Ingrese su contraseña");
+                string contrasenaI = Console.ReadLine().Trim();
+
+                if (nombreI.Equals(nombreUsuario) && contrasena.Equals(contrasenaI))
+                {
+                    MenuCarreras();
+                }
+                else
+                {
+                    Console.WriteLine("Has ingresado datos incorrectos");
+                }
+            }
+        }
+
+        public void MenuCarreras()
+        {
+            Console.WriteLine("Indica la carrera que deseas estudiar");
+            Console.WriteLine("1- Ciencias de la Computacion");
+            Console.WriteLine("2- Medicina");
+            Console.WriteLine("3- Marketing");
+            Console.WriteLine("4- Artes");
+
+            opcion = int.Parse(Console.ReadLine());
+
+            switch (opcion)
+            {
+                case 1:
+                    Console.WriteLine("Bienvenido a Ciencias de la Computacion");
+                    ContadorCarreras();
+                    break;
+                case 2:
+                    Console.WriteLine("Bienvenido a Medicina");
+                    ContadorCarreras();
+                    break;
+                case 3:
+                    Console.WriteLine("Bienvenido a Marketing");
+                    ContadorCarreras();
+                    break;
+                case 4:
+                    Console.WriteLine("Bienvenido a Artes");
+                    ContadorCarreras();
+                    break;
+                default: 
+                    Console.WriteLine("Opcion no valida");
+                return;
+            }
+        }
+
+        public void ContadorCarreras()
+        {
+            int contadorC = 0;
+            int contadorMe = 0;
+            int contadorMa = 0;
+            int contadorA = 0;
+
+            switch (opcion)
+            {
+                case 1:
+                    contadorC++;
+                    if (contadorC > 5)
+                    {
+                        Console.WriteLine("Los cupos estan completos");
+                        break;
+                    }
+                    else
+                        break;
+                case 2:
+                    contadorMe++;
+                    if (contadorMe > 5)
+                    {
+                        Console.WriteLine("Los cupos estan completos");
+                        break;
+                    }
+                    else
+                        break;
+                case 3:
+                    contadorMa++;
+                    if (contadorMa > 5)
+                    {
+                        Console.WriteLine("Los cupos estan completos");
+                        break;
+                    }
+                    else
+                        break;
+                case 4:
+                    contadorA++;
+                    if (contadorA > 5)
+                    {
+                        Console.WriteLine("Los cupos estan completos");
+                        break;
+                    }
+                    else
+                        break;
+                case 5:
+                    break;
+            }
+            Datos();
+        }
+
+        public void Datos()
+        {
+            string nombres;
+            string apellidos;
+            string programaElegido;
+
+            Console.WriteLine("Ingrese su nombre");
+            nombres = Console.ReadLine();
+            Console.WriteLine("Ingrese su apellido");
+            apellidos = Console.ReadLine();
+            Console.WriteLine("Ingrese su programa elegido");
+            programaElegido = Console.ReadLine();
+
+            Campus();
+        }
+
+        public void Campus()
+        {
+            Console.WriteLine("Indique el campus");
+            Console.WriteLine("1. Londres");
+            Console.WriteLine("2. Manchester");
+            Console.WriteLine("3. Liverpool");
+            Console.WriteLine("4. Salir");
+
+            opcionC = int.Parse(Console.ReadLine());
+
+            switch (opcionC)
+            {
+                case 1:
+                    CampusEspacios();
+                    break;
+                case 2:
+                    CampusEspacios();
+                    break;
+                case 3:
+                    CampusEspacios();
+                    break;
+                case 4:
+                    Environment.Exit(0);
+                break;
+            }
+        }
+
+        public void CampusEspacios()
+        {
+            switch (opcionC)
+            {
+                case 1:
+                    contadorLo++;
+                    if (contadorLo > 1)
+                    {
+                        Console.WriteLine("Los cupos para Ciencias de la Computación en Londres están completos");
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Bienvenido");
+                        break;
+                    }
+
+                case 2:
+                    contadorM++;
+                    if (contadorM > 3)
+                    {
+                        Console.WriteLine("Los cupos para Medicina en Manchester están completos");
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Bienvenido");
+                        break;
+                    }
+
+                case 3:
+                    contadorLi++;
+                    if (contadorLi > 1)
+                    {
+                        Console.WriteLine("Los cupos para Marketing en Liverpool están completos");
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Bienvenido");
+                        break;
+                    }
+            }
+        }
+    }
+}
