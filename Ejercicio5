@@ -1,0 +1,178 @@
+using System;
+
+namespace Ejercicio5
+{
+    internal class Program
+    {
+        static int ingresosTotales = 0;
+        static int aporteM = 0;
+        static int aporteH = 0;
+        static int aporteE = 0;
+        static int aporteO = 0;
+        static int aporteA = 0;
+        static int total = 0;
+        static int aporte1; 
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Ingresa tus Ingresos totales");
+
+            if (int.TryParse(Console.ReadLine(), out ingresosTotales))
+            {
+                aporte1 = ingresosTotales; // el valor de aporte1 después de recibir los ingresos totales
+                Console.WriteLine("Tus ingresos son de $" + ingresosTotales);
+                Categorias();
+                Total();
+            }
+            else
+            {
+                Console.WriteLine("Ingreso no válido. El programa se cerrará.");
+            }
+        }
+
+        static void Categorias()
+        {
+            int opc = 0;
+
+            Console.WriteLine("1- Gastos Medicos");
+            Console.WriteLine("2- Gastos del Hogar");
+            Console.WriteLine("3- Gastos de Educacion");
+            Console.WriteLine("4- Gastos de Ocio");
+            Console.WriteLine("5- Ahorro");
+            Console.WriteLine("6- Salir");
+
+            if (int.TryParse(Console.ReadLine(), out opc))
+            {
+                while (opc != 6)
+                {
+                    switch (opc)
+                    {
+                        case 1:
+                            ProcesarGasto("Gastos Medicos", ref aporteM);
+                            break;
+                        case 2:
+                            ProcesarGasto("Gastos del Hogar", ref aporteH);
+                            break;
+                        case 3:
+                            ProcesarGasto("Gastos de Educacion", ref aporteE);
+                            break;
+                        case 4:
+                            ProcesarGasto("Gastos de Ocio", ref aporteO);
+                            break;
+                        case 5:
+                            ProcesarGasto("Ahorro", ref aporteA);
+                            break;
+                        case 6:
+                            Environment.Exit(0);
+                            break;
+                        default:
+                            Console.WriteLine("Opción no válida");
+                            break;
+                    }
+
+                    Total();
+                    Continuar();
+                } // cierra while
+            }
+            else
+            {
+                Console.WriteLine("Entrada no válida");
+            } // cierra if
+        }
+
+        static void ProcesarGasto(string categoria, ref int aporteCategoria)
+        {
+            Console.WriteLine(categoria);
+            Console.WriteLine("Ingrese aporte");
+
+            if (int.TryParse(Console.ReadLine(), out int aporte) && aporte <= ingresosTotales)
+            {
+                Console.WriteLine($"Aporte a {categoria} registrado: ${aporte}");
+                aporteCategoria = aporte;
+                ingresosTotales -= aporteCategoria;
+            }
+            else
+            {
+                Help();
+                Console.WriteLine("El aporte supera tus ingresos totales o no es válido.");
+            }
+        }
+
+        static void Continuar()
+        {
+            int opc = 0;
+            Console.WriteLine("Desea continuar?");
+            Console.WriteLine("1- Si");
+            Console.WriteLine("2- No");
+
+            if (int.TryParse(Console.ReadLine(), out opc))
+            {
+                if (opc == 1)
+                {
+                    Categorias();
+                }
+                else
+                {
+                    if(opc == 2)
+                    {
+                        Congrats();
+                        Console.ReadLine();
+                    }
+                    Environment.Exit(0);
+                }
+            }
+        }
+
+        static void Total()
+        {
+            total = aporteM + aporteH + aporteE + aporteO + aporteA;
+            Console.WriteLine("Tus gastos son: $" + total);
+            if (total == aporte1)
+            {
+                Reducir();
+            }
+        }
+
+        static void Reducir()
+        {
+            if (total == aporte1)
+            {
+                Console.WriteLine("Los aportes son iguales al total de ingresos. Se recomienda reducir aportes en:");
+
+                if (aporteM > aporteH && aporteM > aporteE && aporteM > aporteO && aporteM > aporteA)
+                {
+                    Console.WriteLine("Gastos Medicos");
+                }
+                else if (aporteH > aporteM && aporteH > aporteE && aporteH > aporteO && aporteH > aporteA)
+                {
+                    Console.WriteLine("Gastos del Hogar");
+                }
+                else if (aporteE > aporteM && aporteE > aporteH && aporteE > aporteO && aporteE > aporteA)
+                {
+                    Console.WriteLine("Gastos de Educacion");
+                }
+                else if (aporteO > aporteM && aporteO > aporteH && aporteO > aporteE && aporteO > aporteA)
+                {
+                    Console.WriteLine("Gastos de Ocio");
+                }
+                else if (aporteA > aporteM && aporteA > aporteH && aporteA > aporteE && aporteA > aporteO)
+                {
+                    Console.WriteLine("Ahorro");
+                }
+            }
+        }
+        static void Congrats()
+        {
+            if (aporte1>total)
+            {
+                Console.WriteLine("Felicidades");
+            }
+        }
+        static void Help()
+        {
+            if (total>aporte1)
+            {
+                Console.WriteLine("Te recomiendo esto...");
+            }
+        }
+    }
+}
