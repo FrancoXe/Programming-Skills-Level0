@@ -1,0 +1,295 @@
+using System;
+
+namespace ConsoleApp6
+{
+    internal class Program
+    {
+        static int saldo = 2000; // Mover la variable saldo al ámbito de la clase
+
+        static void Main(string[] args)
+        {
+            int erroresPermitidos = 3;
+
+            while (erroresPermitidos > 0)
+            {
+                Console.WriteLine("Ingrese su nombre");
+                string nombre = Console.ReadLine();
+
+                Console.WriteLine("Ingrese su apellido");
+                string apellido = Console.ReadLine();
+
+                if (string.IsNullOrEmpty(nombre) || string.IsNullOrEmpty(apellido) || ContieneNumeros(nombre) || ContieneNumeros(apellido))
+                {
+                    Console.WriteLine("Error: Nombre y apellido no pueden ser vacíos o contener números.");
+                    erroresPermitidos--;
+                }
+                else
+                {
+                    Console.WriteLine("Nombre: " + nombre);
+                    Console.WriteLine("Apellido: " + apellido);
+                    // No se reinicia el contador de errores si la entrada es válida
+                    Menu(); // Llamar a la función Menu
+                    break; // Salir del bucle después de una entrada válida
+                }
+            }
+
+            Console.WriteLine("Se han agotado los intentos. Programa terminado.");
+        }
+
+        static bool ContieneNumeros(string input)
+        {
+            foreach (char c in input)
+            {
+                if (char.IsDigit(c))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        static void Menu()
+        {
+            int opc = 0;
+            while (opc != 6)
+            {
+                Console.WriteLine("¿Que desea hacer?");
+                Console.WriteLine("1-Depositar");
+                Console.WriteLine("2-Retirar");
+                Console.WriteLine("3-Transferir");
+                Console.WriteLine("4-Ver mi saldo");
+                Console.WriteLine("5-Usar convertor");
+                Console.WriteLine("6-Salir");
+
+                // Se debe convertir la entrada del usuario a un número
+                if (int.TryParse(Console.ReadLine(), out opc))
+                {
+                    switch (opc)
+                    {
+                        case 1:
+                            Depositar();
+                            break;
+                        case 2:
+                            Retirar();
+                            break;
+                        case 3:
+                            Transferir();
+                            break;
+                        case 4:
+                            Cuenta();
+                            break;
+                        case 5:
+                            Convertor();
+                            break;
+                        case 6:
+                            Console.WriteLine("Programa terminado.");
+                            return;
+                        default:
+                            Console.WriteLine("Opción no válida. Intente nuevamente.");
+                            break;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Opción no válida. Intente nuevamente.");
+                }
+            }
+        }
+
+        static void Depositar()
+        {
+            Console.WriteLine("Ingrese importe a depositar");
+            // Se debe convertir la entrada del usuario a un número
+            if (int.TryParse(Console.ReadLine(), out int deposito))
+            {
+                saldo += deposito;
+                Console.WriteLine("Ahora su saldo es de " + saldo);
+            }
+            else
+            {
+                Console.WriteLine("Entrada no válida. Operación cancelada.");
+            }
+            Continuar();
+        }
+
+        static void Retirar()
+        {
+            int opc = 0;
+            int comision = 0;
+            Console.WriteLine("Ingrese importe a retirar");
+            // Se debe convertir la entrada del usuario a un número
+            if (int.TryParse(Console.ReadLine(), out int retiro))
+            {
+                if (retiro > saldo)
+                {
+                    Console.WriteLine("No posee esa cantidad");
+                }
+                else
+                {
+                    Console.WriteLine("¿Está seguro que desea retirar " + retiro + "?");
+                    Console.WriteLine("1-Aceptar");
+                    Console.WriteLine("2-Cancelar");
+
+                    if (int.TryParse(Console.ReadLine(), out opc) && opc >= 1 && opc <= 2)
+                    {
+                        if (opc == 1)
+                        {
+                            comision = (int)(retiro * 0.01);
+                            saldo -= retiro;
+                            Console.WriteLine("Ahora su saldo es de " + saldo);
+                            Console.WriteLine("Se cobró $" + comision + " de comisión");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Operación cancelada");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Opción no válida. Operación cancelada.");
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("Entrada no válida. Operación cancelada.");
+            }
+            Continuar();
+        }
+
+        static void Transferir()
+        {
+            Console.WriteLine("Ingrese alias del usuario al que desea transferir");
+            Console.ReadLine();
+            Console.WriteLine("Ingrese importe a transferir");
+            // Se debe convertir la entrada del usuario a un número
+            if (int.TryParse(Console.ReadLine(), out int transfiero))
+            {
+                saldo -= transfiero;
+                Console.WriteLine("Ahora su saldo es de " + saldo);
+            }
+            else
+            {
+                Console.WriteLine("Entrada no válida. Operación cancelada.");
+            }
+            Continuar();
+        }
+
+        static void Cuenta()
+        {
+            Console.WriteLine("Su saldo es de " + saldo);
+            Continuar();
+        }
+        static void Convertor()
+        {
+            int opc = 0;
+            while (opc != 7)
+            {
+                Console.WriteLine("Seleccione su moneda");
+                Console.WriteLine("1-USD");
+                Console.WriteLine("2-ARS");
+                Console.WriteLine("3-CLP");
+                Console.WriteLine("4-EUR");
+                Console.WriteLine("5-TRY");
+                Console.WriteLine("6-GBP");
+                Console.WriteLine("7-Salir");
+
+                if (int.TryParse(Console.ReadLine(), out opc) && opc >= 1 && opc <= 7)
+                {
+                    if (opc == 7)
+                    {
+                        Console.WriteLine("Programa terminado.");
+                        break;
+                    }
+
+                    Console.WriteLine("Convertir a:");
+                    Console.WriteLine("1-USD");
+                    Console.WriteLine("2-ARS");
+                    Console.WriteLine("3-CLP");
+                    Console.WriteLine("4-EUR");
+                    Console.WriteLine("5-TRY");
+                    Console.WriteLine("6-GBP");
+                    Console.WriteLine("7-Salir");
+
+                    int conversion;
+                    if (int.TryParse(Console.ReadLine(), out conversion) && conversion >= 1 && conversion <= 7)
+                    {
+                        Console.WriteLine("Ingrese la cantidad a convertir:");
+                        if (double.TryParse(Console.ReadLine(), out double cantidad))
+                        {
+                            double resultado = ConvertirMoneda(opc, conversion, cantidad);
+                            Console.WriteLine($"Resultado: {resultado} {ObtenerNombreMoneda(conversion)}");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Entrada no válida. La cantidad debe ser un número.");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Moneda de destino no válida.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Moneda de origen no válida.");
+                }
+            }
+            Continuar();
+        }
+
+        static double ConvertirMoneda(int monedaOrigen, int monedaDestino, double cantidad)
+        {
+            double factorConversion = ObtenerFactorConversion(monedaOrigen, monedaDestino);
+            return cantidad * factorConversion;
+        }
+
+        static double ObtenerFactorConversion(int monedaOrigen, int monedaDestino)
+        {
+            // Estos valores son ficticios y deben ser reemplazados con tasas de cambio reales
+            double[,] tasasDeCambio = {
+            // USD,  ARS,  CLP,  EUR,  TRY,  GBP
+            {1.0,   80.0,  750.0, 0.85,  12.0,  0.75},  // USD
+            {0.001232, 1.0,   1.0, 0.001125, 0.04,  0.00097}, // ARS
+            {0.001129, 0.91, 1.0,   0.001029, 0.03, 0.000888},  // CLP
+            {1.1, 889.19, 972, 1.0,  32.6, 0.86}, // EUR
+            {0.03, 27.27,  30,   0.03, 1.0,   0.03}, // TRY
+            {1.27, 1030.88, 1126, 1.16,  37.79, 1.0}    // GBP
+        };
+
+            return tasasDeCambio[monedaOrigen - 1, monedaDestino - 1];
+        }
+
+        static string ObtenerNombreMoneda(int moneda)
+        {
+            string[] nombres = { "USD", "ARS", "CLP", "EUR", "TRY", "GBP" };
+            return nombres[moneda - 1];
+        }
+        static void Continuar()
+        {
+            int opc = 0;
+            Console.WriteLine("¿Desea realizar otra operación?");
+            Console.WriteLine("1-Si");
+            Console.WriteLine("2-No");
+
+            if (int.TryParse(Console.ReadLine(), out opc) && opc >= 1 && opc <= 2)
+            {
+                if (opc == 1)
+                {
+                    Menu();
+                }
+                else
+                {
+                    Environment.Exit(0);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Opción no válida. Operación cancelada.");
+            }
+        }
+
+    }
+}
+
+
